@@ -137,7 +137,45 @@ def llenar_grafo(grafo,n_nodos,archivo):
    lista_nodos.append(matriz[i][0])
  grafo.add_nodes_from(lista_nodos,visitado=0)  
  return matriz       
+def busqueda_local(grafo):
+ print("busqueda local")
 
+
+def costo(grafo):
+ print("------------------------------------costo")  
+ pesos = nx.get_edge_attributes(grafo,'weight')
+ dt = 0
+ for i in pesos:
+  dt = dt + pesos[i]
+ return dt
+ 
+   
+def grafo_salida(grafo,ruta,total_nodos):
+ g2 = nx.Graph()
+ g2.add_nodes_from(ruta)
+
+ for i in range(total_nodos):
+ 
+  if i == (len(ruta)-1):
+     g2.add_edge(ruta[i],ruta[0])
+     break
+  g2.add_edge(ruta[i],ruta[i+1])      
+ 
+ 
+ #agregando los pesos 
+ for i in g2.edges():
+  g2[i[0]][i[1]]['weight'] = g[i[0]][i[1]]['weight']
+ 
+ nx.draw_random(g2)
+ plt.savefig("grafo2.png")
+ plt.show()
+ return g2
+ 
+ 
+
+
+
+#######  
 g = nx.Graph()
 total = 15
 nom_archivo = "g2.txt"
@@ -168,17 +206,9 @@ plt.show()
 
 
 """imprimiendo el nuevo arreglo"""
-
-g2 = nx.Graph()
-g2.add_nodes_from(visitados)
-
-for i in range(total):
- 
- if i == (len(visitados)-1):
-    g2.add_edge(visitados[i],visitados[0])
-    break
- g2.add_edge(visitados[i],visitados[i+1])      
-nx.draw_random(g2)
-plt.savefig("grafo2.png")
-plt.show()    
+g2=grafo_salida(g,visitados,total)
+print(g2.edges())
+costo = costo(g2)
+print(costo)
+    
  
