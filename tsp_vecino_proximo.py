@@ -139,8 +139,8 @@ def llenar_grafo(grafo,n_nodos,archivo):
  return matriz       
 
 g = nx.Graph()
-total = 15
-nom_archivo = "g2.txt"
+total = 280
+nom_archivo = "g1.txt"
 #g.add_nodes_from([1,2,3,4,5,6,7,8],visitado=0)
 
 
@@ -163,8 +163,9 @@ print("imprimiendo el arreglo de visitados")
 print(visitados)
 print("numero de nodos :",len(visitados))
 nx.draw_random(g)
-
+plt.savefig("grafo3.png")
 plt.show()
+
 
 """imprimiendo el nuevo arreglo"""
 
@@ -176,5 +177,6 @@ for i in range(total):
  if i == (len(visitados)-2):
     break
 nx.draw_random(g2)
+plt.savefig("grafo4.png")
 plt.show()    
  
