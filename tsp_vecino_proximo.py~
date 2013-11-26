@@ -175,6 +175,6 @@ for i in range(total):
  g2.add_edge(visitados[i],visitados[i+1])   
  if i == (len(visitados)-2):
     break
-nx.draw_random(g2)
+nx.draw.random(g2)
 plt.show()    
  
