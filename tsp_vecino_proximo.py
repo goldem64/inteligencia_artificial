@@ -137,8 +137,61 @@ def llenar_grafo(grafo,n_nodos,archivo):
    lista_nodos.append(matriz[i][0])
  grafo.add_nodes_from(lista_nodos,visitado=0)  
  return matriz       
-def busqueda_local(grafo):
- print("busqueda local")
+
+
+def busqueda_local(grafo,grafo2):
+ print("------------------busqueda local")
+ costos = []
+ lista_edge = grafo2.edges()
+ lista_edge_ = grafo.edges()
+ 
+ pesos_ = nx.get_edge_attributes(grafo,'weight')
+ pesos2 = nx.get_edge_attributes(grafo2,'weight')
+ costo_actual = costo(grafo2)
+ for l in range(20):
+   for i in grafo2.edges():
+     for j in pesos_ :
+       print("iterador i: ",i)
+       print("iterador j: ",j)
+       if i == j:
+          continue
+       if i[1] != j[0]:
+            edge1 = i
+            print("imprimiedo i : ", i)
+            edge2 = j
+            print("imprimiendo j: ",j)
+            nuevo_edge1 = (i[0],j[1])
+            print("ne1 :",nuevo_edge1)
+            nuevo_edge2 = (i[1],j[0])
+            print("ne2 :",nuevo_edge2)
+            if (nuevo_edge1 not in lista_edge) and (nuevo_edge2 not in lista_edge):
+              
+              for i in range(4):
+               if nuevo_edge1 not in lista_edge_ :
+                  nuevo_edge1 =(j[1],i[0])
+               elif nuevo_edge2 not in lista_edge_ :
+                  nuevo_edge2 = (j[0],i[1])   
+                  
+              print("posicion i :",edge1," valor ",pesos_[edge1])  
+              print("posicion j:",edge2," valor ",pesos_[edge2])  
+              print("posicion n1 :",nuevo_edge1," valor ",pesos_[nuevo_edge1])
+              print("posicion n2 :",nuevo_edge2," valor ",pesos_[nuevo_edge2])       
+              if (float(pesos_[edge1]) + float(pesos_[edge2])) > (float(pesos_[nuevo_edge1]) + float(pesos_[nuevo_edge2])):
+                 print("entre al calculo")
+                 nuevo_edge1 = (i[0],j[1],pesos_[(i[0],j[1])])
+                 nuevo_edge2 = (i[1],j[0],pesos_[(i[1],j[0])])
+                 grafo2.remove_edges_from([(edge1,edge2)])
+                 grafo2.add_weighted_edges_from([nuevo_edge1,nuevo_edge2])
+                 lista_edge = grafo2.edges()
+            
+          
+   costos.append(costos(grafo2))            
+        
+          
+ nx.draw_random(g2)
+ plt.show()    
+ 
+ 
 
 
 def costo(grafo):
@@ -190,7 +243,8 @@ matriz_pesos = agregar_pesos(g,total,matriz_archivo)
 
 pesos = nx.get_edge_attributes(g,'weight')
 print("los pesos-------------------------------------------------------------")
-print(pesos)
+print(pesos) 
+  
 vez = 1
 nodo_inicio = "1"
 
@@ -208,7 +262,11 @@ plt.show()
 """imprimiendo el nuevo arreglo"""
 g2=grafo_salida(g,visitados,total)
 print(g2.edges())
-costo = costo(g2)
-print(costo)
-    
+costo_ruta = costo(g2)
+print(costo_ruta)
+print("aristas-------de grafo1")
+for i in g.edges():
+  print(i)  
+"""busqueda local """
+busqueda_local(g,g2)
  
